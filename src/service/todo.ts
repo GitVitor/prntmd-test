@@ -12,7 +12,7 @@ const updateTodo = (todo: Todo) => {
   return fetch(`${URL}/${todo.id}`, {
     method: 'put',
     headers: {
-      'Content-type': 'application/json;'
+      'Content-type': 'application/json;',
     },
     body: JSON.stringify({
       name: todo.name,
@@ -21,7 +21,20 @@ const updateTodo = (todo: Todo) => {
   })
 }
 
+const addTodo = (name: string): Promise<Todo> => {
+  return fetch(URL, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json;',
+    },
+    body: JSON.stringify({
+      name,
+    }),
+  }).then((response) => response.json())
+}
+
 export default {
   getTodos,
-  updateTodo
+  updateTodo,
+  addTodo,
 }

@@ -8,7 +8,11 @@ import InputText from '../InputText'
 import { useDispatch, useSelector } from 'react-redux'
 import { Todo } from '../../store/modules/todos/ActionTypes'
 import { RootState } from '../../store/reducer'
-import { fetchTodos, updateTodo } from '../../store/modules/todos/actions'
+import {
+  addTodo,
+  fetchTodos,
+  updateTodo,
+} from '../../store/modules/todos/actions'
 
 interface List {
   data: Array<Todo>
@@ -55,6 +59,7 @@ const List = ({ data, onChange }: List) => {
               onBlur={() => {
                 onChange(todo)
               }}
+              placeholder={'Insira uma atividade'}
             />
           </Col>
           <s.ColCheckboxWrapper>
@@ -83,7 +88,9 @@ export default function TodoList() {
       dispatch(fetchTodos())
   })
 
-  const addNewTodo = () => {}
+  const addNewTodo = () => {
+    dispatch(addTodo())
+  }
 
   const onChange = (todo: Todo) => {
     dispatch(updateTodo(todo))
@@ -92,12 +99,22 @@ export default function TodoList() {
   return (
     <div className="TodoList">
       <s.Container>
-        <s.ListRowWrapper>
-          <List data={todoListState.data} onChange={onChange} />
-        </s.ListRowWrapper>
-        <s.AddNewWrapper>
-          <s.AddNewButton onClick={addNewTodo}>+</s.AddNewButton>
-        </s.AddNewWrapper>
+        {todoListState.isFetching && 'carregando...'}
+
+        {!todoListState.isFetching && !todoListState.error && (
+          <>
+            <s.ListRowWrapper>
+              <List data={todoListState.data} onChange={onChange} />
+            </s.ListRowWrapper>
+            <s.AddNewWrapper>
+              <s.AddNewButton onClick={addNewTodo}>+</s.AddNewButton>
+            </s.AddNewWrapper>
+          </>
+        )}
+
+        {
+          !todoListState.isFetching && todoListState.error && 'Erro ao carregar a API'
+        }
       </s.Container>
     </div>
   )

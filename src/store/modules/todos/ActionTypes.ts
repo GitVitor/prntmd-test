@@ -6,6 +6,10 @@ export const UPDATE_TODO_REQUEST = 'UPDATE_TODO_REQUEST'
 export const UPDATE_TODO_FAILURE = 'UPDATE_TODO_FAILURE'
 export const UPDATE_TODO_SUCCESS = 'UPDATE_TODO_SUCCESS'
 
+export const ADD_TODO_REQUEST = 'ADD_TODO_REQUEST'
+export const ADD_TODO_FAILURE = 'ADD_TODO_FAILURE'
+export const ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS'
+
 export interface Todo {
   id: number
   name: string
