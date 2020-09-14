@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import 'react-toggle/style.css'
 import Toggle from 'react-toggle'
 
 import { Col } from 'styled-bootstrap-grid'
 import * as s from './styles'
+import InputText from '../InputText'
 
 interface Todo {
   name: string
@@ -13,16 +14,19 @@ interface Todo {
 interface List {
   data: Array<Todo>
   onCompleted: () => void
+  onChange: (e: React.ChangeEvent) => void
 }
 
-const List = ({ data, onCompleted }: List) => (
+const List = ({ data, onChange, onCompleted }: List) => (
   <>
     {data.length === 0 ? (
       <s.EmptyList>Nenhum item na lista</s.EmptyList>
     ) : (
       data.map((todo, idx) => (
         <s.ListItem key={idx} onClick={onCompleted}>
-          <Col>{todo.name}</Col>
+          <Col>
+            <InputText value={todo.name} onChange={onChange} />
+          </Col>
           <s.ColCheckboxWrapper>
             <Toggle defaultChecked={todo.completed} />
           </s.ColCheckboxWrapper>
@@ -33,7 +37,13 @@ const List = ({ data, onCompleted }: List) => (
 )
 
 export default function TodoList() {
-  const todoListResponse: Array<Todo> = []
+  const [todoList, setTodoList] = useState<Array<Todo>>([])
+
+  const addNewTodo = () => {
+    setTodoList([...todoList, { name: '' }])
+  }
+
+  const onChange = () => {}
 
   const testClick = () => {
     console.log('click')
@@ -43,10 +53,10 @@ export default function TodoList() {
     <div className="TodoList">
       <s.Container>
         <s.ListRowWrapper>
-          <List data={todoListResponse} onCompleted={testClick} />
+          <List data={todoList} onCompleted={testClick} onChange={onChange} />
         </s.ListRowWrapper>
         <s.AddNewWrapper>
-          <s.AddNewButton>+</s.AddNewButton>
+          <s.AddNewButton onClick={addNewTodo}>+</s.AddNewButton>
         </s.AddNewWrapper>
       </s.Container>
     </div>

@@ -27,6 +27,7 @@ export const ListItem = styled.div`
 export const ColCheckboxWrapper = styled(Col)`
   display: flex;
   justify-content: flex-end;
+  padding: 16px 0;
 `
 
 export const AddNewButton = styled.button`
